@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Income Tax Calculator</title>
+    <link rel="stylesheet" href="it-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,800;1,400&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <!--------------- Logo & Home Button --------------->
+    <nav>
+        <a href="index.html"><img src="./logo.png"></a>
+
+        <a class="web-title" href="index.html">meg's archive.</a>
+
+        <div class="nav-links" id="navLinks">
+            <ul>
+                    <li><a href="index.html">HOME</a></li>
+            </ul>
+        </div>      
+    </nav>
+
+    <h1>income tax calculator</h1>
+
+    <!--------------- Box --------------->
+    <div class="box">
+        <h3>INPUT</h3>
+        <input type="number" id="income" placeholder="Enter taxable income">
+        <button onclick="calculateTax()" class="btn">Calculate Tax</button>
+        <h3>RESULT</h3>
+        <p id="result"></p>
+    </div>
+
+    <!--------------- Footer --------------->
+    <section class="footer">
+        <p>Photo by Elliot Andrews on Unsplash<br><br>2023 © Megan Ang</p>
+    </section> 
+
+<!--------------- Javascript --------------->
+<script>
+    function calculateTax() {
+        const income = document.getElementById('income').value;
+
+        let tax = 0;
+
+        if (income <= 250000) {
+            tax = 0;
+        } else if (income <= 400000) {
+            tax = 0.2 * (income - 250000);
+        } else if (income <= 800000) {
+            tax = 30000 + 0.25 * (income - 400000);
+        } else if (income <= 2000000) {
+            tax = 130000 + 0.3 * (income - 800000);
+        } else if (income <= 8000000) {
+            tax = 490000 + 0.32 * (income - 2000000);
+        } else {
+            tax = 2410000 + 0.35 * (income - 8000000);
+        }
+
+        document.getElementById('result').innerHTML = `Income Tax: ${tax.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>
