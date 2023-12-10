@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payroll Calculator</title>
+    <link rel="stylesheet" href="pr-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,800;1,400&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <!--------------- Logo & Home Button --------------->
+    <nav>
+        <a href="index.html"><img src="./logo.png"></a>
+
+        <a class="web-title" href="index.html">meg's archive.</a>
+
+        <div class="nav-links" id="navLinks">
+            <ul><li><a href="index.html">HOME</a></li></ul>
+        </div>      
+    </nav>
+
+    <h1>payroll calculator</h1>
+
+    <!--------------- Box --------------->
+    <div class="box">
+        <h3>EMPLOYEE INFORMATION</h3>
+
+        <form>
+            <label for="employeeName">Employee Name:</label>
+            <input type="text" id="employeeName"><br>
+
+            <label for="daysWorked">Days Worked:</label>
+            <input type="number" id="daysWorked"><br>
+
+            <label for="dailyRate">Daily Rate:</label>
+            <input type="number" id="dailyRate"><br>
+
+            <label for="deductionAmount">Deduction Amount:</label>
+            <input type="number" id="deductionAmount"><br>
+
+            <button onclick="addEmployee()" class="btn" type="button">Add Employee</button><br><br>
+        </form>
+
+        <h3>REMOVE EMPLOYEE FROM LIST</h3>
+        <input type="number" id="deleteLine" placeholder="Enter number">
+        <button id="btndelete" class="btn">Remove Employee</button>
+
+        <h3>PAYROLL LIST</h3>
+        <table id="payrollTable">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Employee Name</th>
+                    <th>Days Worked</th>
+                    <th>Daily Rate</th>
+                    <th>Gross Pay</th>
+                    <th>Deduction Amount</th>
+                    <th>Net Pay</th>
+                </tr>
+            </thead>
+            <tbody id="payrollBody"></tbody>
+        </table>
+
+        <button id="btnclear" class="btn">Clear Payroll</button>
+
+        <dialog id="dlgConfirmCancel">
+            <form method="dialog">
+                <h4 id="dlgmsg"></h4>
+                <button id="btnConfirm" value="confirm" class="btn">Confirm</button>
+                <button id="btnCancel" value="cancel" class="btn">Cancel</button>
+            </form>
+        </dialog>
+    </div>
+
+    <!--------------- Footer --------------->
+    <section class="footer">
+        <p>Photo by Hun's Visuals on Unsplash<br><br>2023 © Megan Ang</p>
+    </section> 
+
+<!--------------- Javascript --------------->
+<script>
+let payrollList = [];
+
+    function addEmployee() {
+        const employeeName = document.getElementById('employeeName').value;
+        const daysWorked = parseInt(document.getElementById('daysWorked').value);
+        const dailyRate = parseFloat(document.getElementById('dailyRate').value);
+        const deductionAmount = parseFloat(document.getElementById('deductionAmount').value);
+
+        const grossPay = daysWorked * dailyRate;
+        const netPay = grossPay - deductionAmount;
+
+        const payrollEntry = {
+            employeeName,
+            daysWorked,
+            dailyRate,
+            grossPay,
+            deductionAmount,
+            netPay
+        };
+
+        payrollList.push(payrollEntry);
+        displayPayroll();
+        clearInputFields();
+    }
+
+    function deleteEmployee() {
+        const deleteLine = parseInt(document.getElementById('deleteLine').value);
+
+        if (deleteLine > 0 && deleteLine <= payrollList.length) {
+            payrollList.splice(deleteLine - 1, 1);
+            displayPayroll();
+        } else {
+            alert("Invalid line number to delete.");
+        }
+
+        clearInputFields();
+    }
+
+    function displayPayroll() {
+        const payrollTableBody = document.getElementById('payrollBody');
+        payrollTableBody.innerHTML = '';
+
+        payrollList.forEach((entry, index) => {
+            const row = payrollTableBody.insertRow();
+
+            row.insertCell(0).textContent = index + 1;
+            row.insertCell(1).textContent = entry.employeeName;
+            row.insertCell(2).textContent = entry.daysWorked;
+            row.insertCell(3).textContent = entry.dailyRate;
+            row.insertCell(4).textContent = entry.grossPay.toFixed(2);
+            row.insertCell(5).textContent = entry.deductionAmount.toFixed(2);
+            row.insertCell(6).textContent = entry.netPay.toFixed(2);
+        });
+    }
+
+    function clearInputFields() {
+        document.getElementById('employeeName').value = '';
+        document.getElementById('daysWorked').value = '';
+        document.getElementById('dailyRate').value = '';
+        document.getElementById('deductionAmount').value = '';
+        document.getElementById('deleteLine').value = '';
+    }
+
+    function clearPayroll() {
+        document.getElementById('employeeName').value = '';
+        document.getElementById('daysWorked').value = '';
+        document.getElementById('dailyRate').value = '';
+        document.getElementById('deductionAmount').value = '';
+        document.getElementById('deleteLine').value = '';
+    
+        payrollList = [];
+    
+        displayPayroll();
+        updateTotals();
+    }
+
+/*--------------- Modals ---------------*/
+(() => {
+    const dlgConfirmCancel = document.getElementById("dlgConfirmCancel");
+    dlgConfirmCancel.returnValue = "confirm";
+
+    document.getElementById("btnclear").addEventListener("click", () => {
+        document.getElementById("dlgmsg").innerHTML = "Clear the payroll list?";
+        dlgConfirmCancel.showModal();
+    });
+
+    document.getElementById("btndelete").addEventListener("click", () => {
+        document.getElementById("dlgmsg").innerHTML = "Remove employee?";
+        dlgConfirmCancel.showModal();
+    });
+
+    // Form close button closes the dialog box
+    const btnConfirm = document.getElementById("btnConfirm");
+
+    btnConfirm.addEventListener("click", () => {
+        dlgConfirmCancel.close(dlgConfirmCancel.returnValue);
+
+        if (dlgConfirmCancel.returnValue === "confirm") {
+            if (document.getElementById("btndelete").dataset.clicked === "true") {
+                deleteEmployee();
+            } else {
+                clearPayroll();
+            }
+        }
+    });
+
+    const btnCancel = document.getElementById("btnCancel");
+    // Form close button closes the dialog box
+    btnCancel.addEventListener("click", () => {
+        dlgConfirmCancel.close("cancel");
+    });
+
+    // Set a custom attribute to the delete button when it's clicked
+    document.getElementById("btndelete").addEventListener("click", () => {
+        document.getElementById("btndelete").dataset.clicked = "true";
+    });
+
+    // Reset the custom attribute when the dialog is closed
+    dlgConfirmCancel.addEventListener("close", () => {
+        document.getElementById("btndelete").dataset.clicked = "false";
+    });
+})();
+
+</script>
+
+</body>
+</html>
