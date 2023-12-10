@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Number Operations Calculator</title>
+    <link rel="stylesheet" href="no-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,800;1,400&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <!--------------- Logo & Home Button --------------->
+    <nav>
+        <a href="index.html"><img src="./logo.png"></a>
+
+        <a class="web-title" href="index.html">meg's archive.</a>
+
+        <div class="nav-links" id="navLinks">
+            <ul><li><a href="index.html">HOME</a></li></ul>
+        </div>      
+    </nav>
+
+    <h1>number operations calculator</h1>
+
+    <!--------------- Box --------------->
+    <div class="box">
+        <h3>INPUT</h3>
+        <input type="number" id="number" placeholder="Enter a number (n)">
+        <button onclick="calculateOperations()" class="btn">Calculate</button>
+        <h3>RESULT</h3>
+        <div id="results"></div>
+    </div>
+
+    <!--------------- Footer --------------->
+    <section class="footer">
+        <p>Photo by Timur Garifov on Unsplash<br><br>2023 © Megan Ang</p>
+    </section>
+
+<!--------------- Javascript --------------->
+<script>
+    function calculateOperations() {
+    var n = parseInt(document.getElementById('number').value);
+
+    if (isNaN(n) || n < 0) {
+        alert("Please enter a non-negative integer.");
+        return;
+    }
+
+    var factorial = 1;
+    var sum = 0;
+
+    // Calculate nth factorial using a While Loop
+    var i = 1;
+    while (i <= n) {
+        factorial *= i;
+        i++;
+    }
+
+    // Calculate sum of the first n numbers using a Do While Loop
+    i = 1;
+    do {
+        sum += i;
+        i++;
+    } while (i <= n);
+
+    // Calculate average of the first n numbers using a For Loop
+    var average = 0;
+    for (i = 1; i <= n; i++) {
+        average += i;
+    }
+    average /= n;
+
+    // Display results
+    document.getElementById('results').innerHTML =
+        `<p>${n} factorial is: ${factorial}</p>` +
+        `<p>Sum of the first ${n} numbers is: ${sum}</p>` +
+        `<p>Average of the first ${n} numbers is: ${average.toFixed(2)}</p>`;
+    }
+</script>
+
+</body>
+</html>
