@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Unit Conversion Calculator</title>
+    <link rel="stylesheet" href="uc-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,800;1,400&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <!--------------- Logo & Home Button --------------->
+    <nav>
+        <a href="index.html"><img src="./logo.png"></a>
+
+        <a class="web-title" href="index.html">meg's archive.</a>
+
+        <div class="nav-links" id="navLinks">
+            <ul>
+                    <li><a href="index.html">HOME</a></li>
+            </ul>
+        </div>      
+    </nav>
+    
+    <h1>unit conversion calculator</h1>
+
+    <!--------------- Box --------------->
+    <div class="box">
+        <h3>INPUT: TEMPERATURE CONVERSION</h3>
+        <input type="number" id="temperature" placeholder="Enter temperature"><br>
+        <button onclick="convertTemperature()" class="btn">Convert F to C</button>
+        <button onclick="convertToFahrenheit()" class="btn">Convert C to F</button><br>
+        <h3>RESULT</h3>
+        <p id="temp-result"></p>
+        
+        <h3>INPUT: LENGTH CONVERSION</h3>
+        <input type="number" id="length" placeholder="Enter length"><br>
+        <button onclick="convertLength()" class="btn">Convert M to Ft</button>
+        <button onclick="convertToMeters()" class="btn">Convert Ft to M</button>
+        <h3>RESULT</h3>
+        <p id="length-result"></p>
+    </div>
+
+    <!--------------- Footer --------------->
+    <section class="footer">
+        <p>Photo by Lycheeart on Unsplash<br><br>2023 © Megan Ang</p>
+    </section> 
+
+<script>
+    function convertTemperature() {
+    var fahrenheit = document.getElementById('temperature').value;
+    var celsius = (fahrenheit - 32) * (5 / 9);
+    document.getElementById('temp-result').innerHTML = fahrenheit + " Fahrenheit is equal to " + celsius.toFixed(2) + " Celsius";
+    }
+
+    function convertLength() {
+    var meters = document.getElementById('length').value;
+    var feet = meters * 3.28084;
+    document.getElementById('length-result').innerHTML = meters + " Meters is equal to " + feet.toFixed(2) + " Feet";
+    }
+
+    function convertToFahrenheit() {
+    var celsius = document.getElementById('temperature').value;
+    var fahrenheit = (celsius * 9 / 5) + 32;
+    document.getElementById('temp-result').innerHTML = celsius + " Celsius is equal to " + fahrenheit.toFixed(2) + " Fahrenheit";
+    }
+
+    function convertToMeters() {
+    var feet = document.getElementById('length').value;
+    var meters = feet / 3.28084;
+    document.getElementById('length-result').innerHTML = feet + " Feet is equal to " + meters.toFixed(2) + " Meters";
+    }
+</script>
+
+</body>
+</html>
